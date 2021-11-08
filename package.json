@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "node-telegram-bot-api": "^0.54.0",
+    "qr-image": "^3.2.0",
+    "superagent": "^6.1.0",
+    "telegram-bot-api": "^2.0.1",
+    "whatsapp-web.js": "^1.15.1"
+  }
+}
