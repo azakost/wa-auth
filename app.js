@@ -2,14 +2,9 @@ const https = require('https');
 const { Client } = require('whatsapp-web.js');
 const client = new Client({
     puppeteer: {
-        headless: true,
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox'
-        ]
-    }
+        executablePath: "/app/.apt/usr/bin/google-chrome",
+    },
 });
-
 
 client.on('qr', (qr) => {
     https.get('https://qwix.kz/api/wa/send-qr?data=' + encodeURIComponent(qr));
