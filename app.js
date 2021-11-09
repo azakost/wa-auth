@@ -1,17 +1,34 @@
+const https = require('https');
+const fs = require('fs');
 const { Client } = require('whatsapp-web.js');
 
-const host = 'localhost';
-const port = 3000;
+const SESSION_FILE_PATH = './session.json';
+
+let sessionData;
+if (fs.existsSync(SESSION_FILE_PATH)) {
+    sessionData = require(SESSION_FILE_PATH);
+}
+
 
 const client = new Client({
+    session: sessionData,
     puppeteer: {
-        browserWSEndpoint: `ws://${host}:${port}`
+        browserWSEndpoint: 'ws://browserless:3000'
     }
 });
 
+client.on('authenticated', (session) => {
+    sessionData = session;
+    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+});
+
 client.on('qr', (qr) => {
-    // Generate and scan this code with your phone
-    console.log('QR RECEIVED', qr);
+    console.log(qr);
+    https.get('https://qwix.kz/api/wa/send-qr?data=' + encodeURIComponent(qr));
 });
 
 client.on('ready', () => {
@@ -19,9 +36,17 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    if (msg.body == '!ping') {
-        msg.reply('pong');
-    }
+    var phone = msg.from.substr(1, 10);
+    console.log(phone);
+    https.get('https://qwix.kz/api/wa/get-code?phone=' + phone, (res) => {
+        res.on('data', (code) => {
+            msg.reply(code.toString());
+        });
+    });
+});
+
+client.on('change_state', (e) => {
+    https.get('https://qwix.kz/api/wa/report?msg=' + encodeURIComponent(e));
 });
 
 client.initialize();
