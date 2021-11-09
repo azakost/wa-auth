@@ -1,0 +1,19 @@
+version: "2.1"
+services:
+  whatsapp-auth:
+    image: wa-auth
+    links:
+      - browserless
+    depends_on:
+      - browserless
+
+  browserless:
+    image: browserless/chrome:1.48.0-chrome-stable
+    environment:
+      - PREBOOT_CHROME=true
+      - KEEP_ALIVE=true
+      - CHROME_REFRESH_TIME=86400000
+      - MAX_CONCURRENT_SESSIONS=1
+      - MAX_QUEUE_LENGTH=20
+      - CONNECTION_TIMEOUT=-1
+      - ENABLE_CORS=true

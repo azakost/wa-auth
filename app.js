@@ -1,12 +1,26 @@
 const https = require('https');
+const fs = require('fs');
 const { Client } = require('whatsapp-web.js');
+
+const SESSION_FILE_PATH = './session.json';
+let sessionCfg;
+if (fs.existsSync(SESSION_FILE_PATH)) {
+    sessionCfg = require(SESSION_FILE_PATH);
+}
+
 const client = new Client({
+    session: sessionCfg,
+    // Comment this when running locally
     puppeteer: {
-        executablePath: "/app/.apt/usr/bin/google-chrome",
+        browserWSEndpoint: 'ws://browserless:3000',
     },
 });
 
+client.initialize();
+
+
 client.on('qr', (qr) => {
+    console.log(qr);
     https.get('https://qwix.kz/api/wa/send-qr?data=' + encodeURIComponent(qr));
 });
 
@@ -28,6 +42,5 @@ client.on('change_state', (e) => {
     https.get('https://qwix.kz/api/wa/report?msg=' + encodeURIComponent(e));
 });
 
-client.initialize();
 
 
