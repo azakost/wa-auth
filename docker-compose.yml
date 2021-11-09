@@ -8,7 +8,7 @@ services:
       - browserless
 
   browserless:
-    image: browserless/chrome:1.38-chrome-stable
+    image: browserless/chrome:1.39-chrome-stable
     environment:
       - PREBOOT_CHROME=true
       - KEEP_ALIVE=true
