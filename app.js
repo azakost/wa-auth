@@ -12,9 +12,6 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 
 const client = new Client({
     session: sessionData,
-    puppeteer: {
-        browserWSEndpoint: 'ws://browserless:3000'
-    }
 });
 
 client.on('authenticated', (session) => {
