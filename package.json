@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "This example is so cool.",
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "whatsapp-web.js": "^1.15.1"
   }
