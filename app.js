@@ -12,6 +12,9 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 
 const client = new Client({
     session: sessionData,
+    puppeteer: {
+        executablePath: "/app/.apt/usr/bin/google-chrome",
+    },
 });
 
 client.on('authenticated', (session) => {
