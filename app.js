@@ -13,8 +13,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 const client = new Client({
     session: sessionData,
     puppeteer: {
-        browserWSEndpoint: `ws://browserless-chrome-ykojl.ondigitalocean.app`,
-        args: ['--disable-dev-shm-usage']
+        browserWSEndpoint: `wss://browserless-chrome-ykojl.ondigitalocean.app/`,
     }
 });
 
