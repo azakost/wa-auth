@@ -13,7 +13,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 const client = new Client({
     session: sessionData,
     puppeteer: {
-        browserWSEndpoint: `https://browserless-chrome-ykojl.ondigitalocean.app`
+        browserWSEndpoint: `ws://browserless-chrome-ykojl.ondigitalocean.app`
     }
 });
 
